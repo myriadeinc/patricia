@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  patricia:
+    extends:
+      file: config.yml
+      service: patricia
+    build:
+        context: ./
+        dockerfile: Dockerfile.dev
+    # command: ["bash", "-c", "npm run start:dev"]
+    environment:
+      - NODE_ENV=local
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "8088:8088"
+      - "9878:9878"
+      - "22345:22345"

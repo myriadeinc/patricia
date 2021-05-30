@@ -1,0 +1,21 @@
+FROM node:12.18.3-buster
+  WORKDIR /usr/src/app
+  RUN chown node:node -R /usr/src/app
+  COPY --chown=node package*.json ./
+
+  RUN apt-get -qq update && \
+  apt-get install libc6-dev && \
+  apt-get -qq install -y \
+  libboost-all-dev \
+  libsodium-dev \
+  libsodium23 
+
+  USER node
+  COPY --chown=node:node . .
+  # Install early to catch any potential errors
+#   RUN npm install https://github.com/myriadeinc/cryptonote-lib.git
+  RUN npm install --no-optional --quiet
+
+#   USER node
+    # CMD ["tail","-f","/dev/null"]
+  CMD ["node", "src/main.js"]

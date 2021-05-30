@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package patricia;
+
+service Patricia {
+  rpc processBlock (PatriciaBlock) returns (PatriciaBlockResponse) {}
+}
+
+// A constructed block (hex_blob+nonces+seed_hash) should equal hex_result
+message PatriciaBlock {
+  string hex_blob = 1;
+  string hex_nonce = 2;
+  uint32 extra_nonce = 3;
+  string seed_hash = 4;
+  // Consider this a "checksum"
+  string hex_result = 5;
+  // Really a 256bit int
+  string local_diff = 6;
+  string global_diff = 7;
+}
+enum BlockStatus {
+  INVALID = 0;
+  VALID = 1;
+  WINNER = 2;
+}
+message PatriciaBlockResponse {
+  BlockStatus block_status = 1;
+  required string test = 2;
+
+}
+
