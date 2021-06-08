@@ -97,5 +97,5 @@ var Patricia_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "src/patricia.proto",
+	Metadata: "patricia.proto",
 }
