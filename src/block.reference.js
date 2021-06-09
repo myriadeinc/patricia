@@ -9,6 +9,24 @@ const VALID = 2;
 const WINNER = 3;
 
 const BlockReference = {
+  // Protobuf handler (unfortunately does not seem its easy to avoid callbacks)
+  processBlock: (call, callback) => {
+    // Check protobuf params
+  const pblock = call.request;
+
+  const result = BlockReference.checkDifficulty(
+    pblock.local_diff,
+    pblock.global_diff,
+    pblock.hex_result
+  );
+  return callback(null, 
+    {
+        block_status : result,
+    });
+  },
+
+
+
   // Checks if block sent by miner corresponds to the job they were assigned
     verifyBlock: (blob, nonce, extraNonce, seed_hash, result) => {
     try {
