@@ -1,4 +1,3 @@
-# FROM node:12.18.3-buster
 FROM node:14.17.0-buster
   WORKDIR /usr/src/app
   RUN chown node:node -R /usr/src/app
@@ -22,5 +21,5 @@ FROM node:14.17.0-buster
   RUN npm install --no-optional --quiet
 
   COPY --chown=node:node . .
-    # CMD ["tail","-f","/dev/null"]
+  
   CMD ["node", "src/main.js"]

@@ -6,16 +6,28 @@
   "repository": "https://github.com/myriadeinc/patricia.git",
   "scripts": {
     "start:dev": "nodemon --inspect=0.0.0.0:9878 -L --ignore test src/main.js",
-    "start": "node src/main.js"
+    "start": "node src/main.js",
+    "test": "mocha --color --recursive --exit --timeout 10000 'test' "
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@grpc/grpc-js": "^1.3.2",
     "@grpc/proto-loader": "^0.6.2",
-    "grpc": "^1.24.10",
-    "grpc-node-server-reflection": "^1.0.2"
+    "bignum": "^0.13.1",
+    "bunyan": "^1.8.15",
+    "bunyan-formatter": "^1.0.0",
+    "cryptoforknote-util": "git+https://github.com/MoneroOcean/node-cryptoforknote-util.git#af5a7c21862a4ce324d55e9c461e2a8d8b8b3b42",
+    "cryptonight-hashing": "git+https://github.com/MoneroOcean/node-cryptonight-hashing.git#743a6d62f44e6e3de645033f7b54d9f37c38cc81",
+    "gelf-stream": "^1.1.1",
+    "grpc-node-server-reflection": "^1.0.2",
+    "nconf": "^0.11.2"
   },
   "devDependencies": {
+    "chai": "^4.3.4",
+    "chai-as-promised": "^7.1.1",
+    "chai-string": "^1.5.0",
+    "mocha": "^9.0.0",
     "nodemon": "^2.0.7"
   }
 }

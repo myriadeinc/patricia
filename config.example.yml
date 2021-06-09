@@ -1,25 +1,12 @@
 version: '3.8'
 services:
-  emerald:
+  patricia:
     environment:
       NODE_ENV: local
+      NODE_PATH: src/
       service__shared_secret: 5e27500b-2838-4fb3-b2e8-2587101829c8
       rabbitmq__url: amqp://guest:guest@mq:5672/
       cache__host: cache
       pool__poolAddress: 47PAULmUFo3DPHKehGPuxXbEAB4JkRYJ49DEFs4EqaT7M2TRqqWWHAeJyEHWg8eRoWNwMAHh7bx6Eh5SR2fpdnj71fhxugC
       monero__daemon__host: daemon.myriade.io
       monero__daemon__port: 80
-      pickaxe__host: pickaxe
-      pickaxe__port: 8050
-      http__port: 22345
-      tcp__port: 32345
-      nobridge: 0
-      shadowstone__host: "http://shadowstone:9990/refresh"
-      whetstone__host: "http://whetstone:4990/jobfeed"
-      diamond__host: diamond
-      diamond__port: 8180
-      pool__desc: "High end hardware"
-      diamond__public_key: |-
-          -----BEGIN PUBLIC KEY-----
-          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-          -----END PUBLIC KEY-----       

@@ -1,0 +1,66 @@
+'use strict';
+
+const BlockReference = require.main.require('block.reference.js');
+
+
+// const config = require('src/util/config.js');
+// require('chai')
+//   .use(require('chai-as-promised'))
+//   .use(require('chai-string'))
+//   .should();
+
+describe('Unit tests for Block Referencing', ()=> {
+
+  const job = { 
+    minerId: 'dsafj-234',
+    job_id: '824614c3f225f36daf6676c76a2eb7952f935a4cf3',
+    extraNonce: 1927639731,
+    height: 2093893,
+    seed_hash: 'b7535e4ee43bbc3efbb8191719f76c7fb187c06994b3ea84106a6072accfe5e2',
+    blob: '0c0cd9f4d5f505aedf21d5e8917e52c7881a4415c58451adfcd0d74552cb29edee530d79dea3af000000000281e77f01ffc5e67f01cf97e5e8d731026a9f71bf3713c68276996b9c08c62cd3cd329838ea64298673a39a54d7fcf4bb2b01297e8c1df560254249bbac8275c1322f721ffb167602388b6d4da1237e8edb960208000000000000000000120e3cc18eabd7fbd67a9b118d34022f884ecb420bd95682ebc04279c5bbdaf71308b5dfbaed7e30836b5628d5a1083c65c921c71d94065697356e6cb798b5212b4768d6e54931f283749b968c43ff79b79b5317031c451f940002365b448a45381fe0e0d7f71927b5f58ed18f7e2da8565d884b4a1f16e1c29ec02d9622059179656bcb6a31cfe81318f9bc5a71f6dc6d536c88a96a638e1dd908d707ce6d817d33ec3abd608275316c1221c7bc49855b357fdd5014ba75c0cc6158eaa74f2c78e83836a530599ef63ce853eda7b3378a040b5756da626e4daf86315cfa78dd9b815d8639679e7deb4f110ca2721525082ddff7c6042b8cd2d2ef8fd6db22ffd9a415a4c821cbe8d7b16cc34f43652cdc25caa169e37ea3ad82e3371ffc5fa5da0982e1f3cd8e2c48f8983554383cc1b2b00a44e78460624a8e7a633b1b4ea182efcc3da4555de127243ed3845045c5dc5ae5f40562844f06755423786f609fa21eb3acb46066942cc94c938cced3bfe19197686f8e4ca6855ca3fccafbf2ea3ff2b20bc531625d6e50840ed50bf2d038e67f02cab624325c619e0c46e1b6a8fb654eb728d4fe75dd227b6eb33fe935e8df6a4fcc64be60b3f411bb26b7b2a72fbeb8f77a28e8d49ed0f5f130124da7d26f785e6e34522ec07b6c97988fc9d5c4abf4571a7f251fa8c7cb560cd0dfd2e308227819e937c732015b26b15fe7e562feeca2ccf582ea5595001616786942dab65b1041d57f9d65ae7a71dc6847eb962d89953eb2cb2d9a7829b8bc6614c28b28ca9f77e9f4603790cc7d2f0fbe315a',
+    globalDiff: 152217110269,
+    difficulty: '8000' 
+  };
+  const minerData = {
+    id: 'dsafj-234',
+    job_id: '824614c3f225f36daf6676c76a2eb7952f935a4cf3',
+    nonce: '34210000',
+    result: '0c456307f6681606439dcfebfa890473d10dc85fdadf3da4909b9e1838380000'
+  };
+  
+  it('Should verify that a miner submitted block is valid', () => {
+    const truth = BlockReference.verifyBlock(
+        job.blob,
+        minerData.nonce,
+        job.extraNonce,
+        job.seed_hash,
+        minerData.result        
+        );
+    truth.should.be.equal(true);
+  });
+
+  it('Should verify the difficulty of a block', () => {
+    const localDiff = 8000;
+    const block = minerData.result;
+    const globalDiff = 152217110269;
+    const status = BlockReference.checkDifficulty(localDiff, globalDiff, block)
+    status.should.be.equal(1);
+  });
+
+  it('Should verify a block that won the reward', () => {
+    const blob = '0c0cb0d2d6f5051a3facd8db3e16eb5a16392d74a75f96087873062fc8cc640baeb9f84d6e466af980020002e5e77f01ffa9e77f01dbd5fdead931026a663ed2c7eabd2e82e7588e7d39d1d54f62cb7e274b7c2ead3769fc28e4249234018e3f89559e77c87c06ce425fa01cfedf3cafffb158e754642d0a07dd7f2a89c20211000032e2586ccc57000000000000000000002339abed4f8da491176e8097a655e1efb8fd0f8c6a38fd2e447e5a5f25151b9736d7331454919a1c346091011a571c1e71ee59d3502f68d9e2de6ea6d4fb8ae7408382225360a0d0dd54a7290cb6c58805d2a79ecd9164d4c66b3211950ed29e29c4d8ef4521cc1876a86efcb693078921abd01feba2697da3c60c959f6436b6d0516c649487305d14a9d8908031603448eaa3c2d6c993bc745ee9796334d971ffba67eb23ad8ce5399c553e30f77a2ce423b312ff485627400bfb56a80229035589017b5fe49c4203a1fcc9b86d54ea3b12fca091b1540a32493cf1850039e51f37df50d97016fc02528ae6ca8b7126fd855b9e87337f913cbc34e25d8dcb0e0ecf9a5bc516d2efc85e1349d93ed4c4f654617a2ec5fdb7fab680a9fc4c9e0463dda645947b4c2c062fb22b73e3cda7717a16ab368d8a174407bc5b306e5d51a7dbc69a7d901d5cc61a7f2c8f071feac1d1f5ac99a41757efd64a8db9e52d98fe569d39f1034b2b6957b9816bf9ebf344966535805a7fa4cefd24b7316fbc42d00db0a974353c0c6ec8b65b05b88e3833f85ccc480e6e683eca65387aa5b5c31de65e310fb35132f08d6c2ff36def0b12dd8985dbb1a302b07b23fe3a0ed30e1744d34e28c950453bc65cd2c0ba92cd4c4a2ab7970739c7adc7b8937a6bdff947c92de3bac446de976595c487d251ebb94141ffb37f3764e0dd97aea764d47c8f9c38cfffa5d8577f7c7517ee2b9764d65b98ffaeec17e809a8d88fa965e91baa6bb9bb1ae2fe13b63d69813bda21c13ac5155eda48e81c4d73f0b97b22402b467be0c8b0fbfc2f5929cfcb589ad8f01ddec76996bd7d8cea33eac86b763277259acadae8b50b9d622b4380b8c4d6b9dae9ce99e21f3a696535c1ecd9a06682672e73af5c3523bb630dce7f89f31434365dfd6794dd8499d8fbfc9a71fc5123ec674a964193f9b8bf16b53ffe8d46022cfd1408c90c373549c6ecd2e7eaaf184e62946802a5366ada2b6c9f86f357df7c3bfc2ab4aadd8cf4b68409cf1e34cd5408886f30da18bf68ce7fd23d09368abf5459a331959ec9131d811745d440c9db0cddaeae713793cc3c8cbcdca018ab513b96405864749ec86690b773c1565f062f6d01e49c59b2f400dd61d7b44e3095150c8bdd2dceaf0cdc6b9b8054ca6535e2569e21c57bb176022ea0805cf4e28bb053a803fa7eff0dd0cd5a595625473e0d82ad0a720cbcf0a1cabe736cb03a79314857c1d0d8171ed878f12873587b7295e13813e2b3563dcab40912e8be812853365f6f36ac54e9fd7da6c8580f7509dda1d6e7fe2762cc7feecaeeda2f257fb82d219bd939156a19fce0073bffd5ae21ab46478e71c978d8cc963391e9a268763a5b5d975b08b547203cfed25da326c98b6060ce8694248462c46d3d97be28fa17552c13d1fb800a372f56b2168c4da058fc285c7abcfd22ad02d9b71624dc7a824cacae18cd1f3e973fe07f9e655fc4d54064e5510bc21cb0b1dbc987cabd64b5225263b9ab62ceccd75517efd7405fe6cd140f2d58b2f7f492337d00130b92dda269f4da7852be037815e9ebb83e';
+    const globalDiff = '148085610848'; // -> ~2^38
+    const nonce = 164089;
+    const seed_hash = "b7535e4ee43bbc3efbb8191719f76c7fb187c06994b3ea84106a6072accfe5e2";
+    let block  = BlockReference.buildIntNonce(blob, nonce);
+    block = BlockReference.convertBlock(block);
+    block = BlockReference.hashBlock(block, seed_hash);
+    const result = BlockReference.checkDifficulty(globalDiff, globalDiff, block.toString('hex'));
+    result.should.be.equal(2);
+    
+  });
+//     it('Should verify that a miner submitted block is valid', () => {
+//     const truth = false;
+//     truth.should.be.equal(true);
+//   });
+})

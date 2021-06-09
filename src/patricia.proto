@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package patricia;
-option go_package = "github.com/myriadeinc/patricia";
+option go_package = "github.com/myriadeinc/aquamarine/proto";
 service Patricia {
   rpc processBlock (PatriciaBlock) returns (PatriciaBlockResponse) {}
 }
@@ -19,13 +19,13 @@ message PatriciaBlock {
   string global_diff = 7;
 }
 enum BlockStatus {
-  INVALID = 0;
-  VALID = 1;
-  WINNER = 2;
+  NONE = 0;
+  INVALID = 1;
+  VALID = 2;
+  WINNER = 3;
 }
 message PatriciaBlockResponse {
   BlockStatus block_status = 1;
   string test = 2;
-
 }
 
