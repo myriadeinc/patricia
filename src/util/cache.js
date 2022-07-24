@@ -1,6 +1,7 @@
 'use strict';
 
 const redis = require('redis');
+
 const _ = require('lodash');
 
 
