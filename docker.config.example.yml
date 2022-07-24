@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  patricia:
+    environment:
+      # NODE_ENV: local
+      # NODE_PATH: src/
+      RABBITMQ_URL: amqp://guest:guest@mq:5672/
+      REDIS_URL: redis://redis:6379
+      
