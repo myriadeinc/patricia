@@ -1,6 +1,5 @@
 'use strict';
 
-const logger = require.main.require('util/logger.js');
 const config = require('nconf')
     .argv()
     .env({ lowerCase: true, separator: '__' })

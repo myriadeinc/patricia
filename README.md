@@ -1,5 +1,5 @@
 # patricia
-Bare exposure for monero libraries
+Bare exposure for monero libraries and job creation/validation
 
 There are two libraries that we don't have the time for making compatible with go : 
 - node-cryptoforknote-util -> for creating monero blocks and translation between hex representation/raw binary format
