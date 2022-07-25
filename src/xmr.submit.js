@@ -14,7 +14,6 @@ const SubmitService = {
         "method":"submit_block",
         "params":[blockAsHex]
     }
-    // console.log(`sending payload ${JSON.stringify(payload)}`)
     for (const url of node_urls){
         try {
             const response = await axios.post(url, payload)

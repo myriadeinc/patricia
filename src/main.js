@@ -50,8 +50,6 @@ await cache.put('blocktemplate',exampleTemplate)
 server.register('newjob', service.NewJob)
 server.register('submitjob', service.SubmitJob)
 
-
-
 console.log(`Websocket server started on 9877`)
 }
 
