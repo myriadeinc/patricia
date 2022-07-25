@@ -31,7 +31,6 @@ workflows:
           requires:
             - test
           image: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
-          update-description: true
           filters:
             branches:
               only: 
