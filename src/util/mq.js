@@ -6,6 +6,10 @@ const logger = require('pino')()
 
 let channel;
 
+function delay(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
+} 
+
 const toBuffer = (obj) => {
   let str = obj;
   if ('string' !== typeof myVar) {
@@ -17,20 +21,20 @@ const toBuffer = (obj) => {
 
 const MQ = {
   channel,
-  init: (url) => {
-    return amq.connect(url)
-      .then((conn) => {
-        return conn.createChannel();
-      })
-      .then((ch) => {
-        MQ.channel = ch;
-        logger.info("Messaging Queue Initialized!")
-        return true;
-      })
-      .catch(err => {
-        logger.error("Could not connect to RabbitMQ!")
-        logger.error(err);
-      });
+  init: async (url) => {
+    await delay(3000)
+    try {
+      const conn = await amq.connect(url)
+      const ch = await conn.createChannel()
+      MQ.channel = ch
+      logger.info("Messaging Queue Initialized!")
+      return true
+    } catch (e){
+      logger.error("Could not connect to RabbitMQ!")
+      logger.error(e);
+      await MQ.init(url)
+    }
+
   },
 
   send: (msg) => {

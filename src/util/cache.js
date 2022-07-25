@@ -11,7 +11,7 @@ const Cache = {
 
   init: (conf) => {
     redisClient = redis.createClient(conf);
-    redisClient.connect()
+    return redisClient.connect()
   },
 
   parse: (rawString) => {

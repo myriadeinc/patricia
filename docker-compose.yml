@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   patricia:
     extends:
@@ -8,21 +7,27 @@ services:
         context: ./
         dockerfile: Dockerfile
     # command: ["tail", "-f", "/dev/null"]
-    command: ["node", "src/main.js"]
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+    # command: ["node", "src/main.js"]
+    # volumes:
+    #   - .:/usr/src/app
+    #   - /usr/src/app/node_modules
     ports:
       - "9877:9877"
       # For nodemon during local developments
       - "9878:9878"
+    depends_on:
+      - redis
+      - mq
+
 
   redis:
     image: redis:6.2.4
     ports:
       - "6379:6379"
+    logging:
+      driver: none
   mq:
-    image: rabbitmq:3.6.4-management
+    image: myriadeinc/rabbitmq:latest
     ports:
       - "5672:5672"
       - "15672:15672"

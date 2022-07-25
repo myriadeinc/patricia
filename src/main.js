@@ -38,11 +38,9 @@ const server = new WebSocketRPCServer({
   host: '0.0.0.0'
 })
 
-cache.init({url: config.get('REDIS_URL')})
+await cache.init({url: config.get('REDIS_URL')})
 
 await mq.init(config.get('RABBITMQ_URL'));
-
-await cache.put('blocktemplate',exampleTemplate)
 
 // newjob
 // submitjob
