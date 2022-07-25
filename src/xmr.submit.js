@@ -1,4 +1,5 @@
 const axios = require('axios')
+const logger = require('pino')()
 
 const node_urls = [
     "https://node.monerod.org/json_rpc"
@@ -17,16 +18,16 @@ const SubmitService = {
     for (const url of node_urls){
         try {
             const response = await axios.post(url, payload)
-            console.dir(response.data)
+            logger.debug(response.data)
             if(response.data.result) {
-                console.log("got status")
+                logger.info("got a status")
                 return
             }
         } catch(e) {
-            console.error(e)
+            logger.error(e)
         }
     }
-    console.error("could not submit to any nodes")
+    logger.error("could not submit to any nodes")
 
 
     }

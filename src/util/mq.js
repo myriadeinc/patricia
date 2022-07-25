@@ -2,11 +2,8 @@
 const amq = require('amqplib');
 const debug = true;
 const queue = 'Miner::Metrics';
-const logger = {
-    info: (msg) => console.log(msg),
-    error: (msg) => console.log(msg),
-    debug: (msg) => console.log(msg)
-}
+const logger = require('pino')()
+
 let channel;
 
 const toBuffer = (obj) => {

@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const logger = require('pino')()
 
 const xmrlib = require('./util/xmr.js')
 
@@ -46,7 +47,7 @@ const StratumService = {
     await cache.put(newJob.job_id, newJob)
 
     const minerJob = StratumService.createMinerJob(newJob)
-    console.log("returning minerjob")
+    logger.child({height: newJob.height}).debug("returning minerjob")
     return minerJob
 
 
@@ -104,10 +105,9 @@ const StratumService = {
         nonce,
         result
       } = params[0]
-      console.log("received call to submit job")
       job = await cache.get(job_id)
       if (job){
-        console.log("job fetch valid")
+        logger.debug("job fetch valid")
       }
       isValidBlock = BlockReferenceService.verifyBlock(job.blocktemplate_blob, nonce, job.extraNonce, job.seed_hash, result)
       if (isValidBlock) {

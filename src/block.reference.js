@@ -1,6 +1,6 @@
 'use strict';
 const xmr = require('./util/xmr.js');
-const logger = (s) => console.log(s)
+const logger = require('pino')()
 // Value is 16^64 or 2^256
 const hex256 = BigInt('0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF')
 const NONE = 0;
@@ -20,7 +20,7 @@ const BlockReference = {
       block = BlockReference.hashBlock(block, seed_hash);
       return block.toString('hex') == result;
     } catch (err) {
-        logger(err);
+        logger.error(err);
         return false;
       }
     },
@@ -70,7 +70,7 @@ const BlockReference = {
       block = BlockReference.hashBlock(block, job.seed_hash);
       return block.toString('hex') == minerData.result;
     } catch (err) {
-      logger(err);
+      logger.error(err);
       return false;
     }
   },

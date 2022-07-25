@@ -1,8 +1,7 @@
 
 const config = require('./util/config.js');
 const WebSocketRPCServer = require('rpc-websockets').Server
-
-
+const logger = require('pino')()
 const cache = require('./util/cache.js')
 const mq = require('./util/mq.js')
 const service = require('./stratum.service.js')
@@ -27,8 +26,8 @@ const exampleTemplate = {
 }
 
 function debugDump() {
-	console.log(`REDIS_URL = ${config.get('REDIS_URL')}`)
-	console.log(`RABBITMQ_URL = ${config.get('RABBITMQ_URL')}`)
+	logger.info(`REDIS_URL = ${config.get('REDIS_URL')}`)
+	logger.info(`RABBITMQ_URL = ${config.get('RABBITMQ_URL')}`)
 }
 
 async function main() {
@@ -50,9 +49,9 @@ await cache.put('blocktemplate',exampleTemplate)
 server.register('newjob', service.NewJob)
 server.register('submitjob', service.SubmitJob)
 
-console.log(`Websocket server started on 9877`)
+logger.info(`Websocket server started on 9877`)
 }
 
 
 
-main().catch(err=>console.log(err));
+main().catch(err=>logger.error(err));
