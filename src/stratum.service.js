@@ -20,18 +20,16 @@ const StratumService = {
     return {'ack': true}
   },
 
-  NewJob: async (params) => {
+  NewJobWithTemplate: async (params) => {
     try {
 
       const {
-        miner
+        miner,
+        templateHeight, // string
+        templateBlob, // string
+        templateDiff, // string
+        templateSeedhash, // string
     } = params[0]
-
-    template = await cache.get("blocktemplate")
-    if (!template) {
-      logger.info("no template found!")
-      return {}
-    }
 
     const extraNonce = StratumService.getExtraNonce()
     const diff = minDiff;
@@ -39,17 +37,17 @@ const StratumService = {
     
     // We create a job as reference, then send a processed reply as the actual job
     const newJob = {
-      miner: miner,
-      job_id: crypto.pseudoRandomBytes(nRandomBytesJob).toString('hex'),
-      extraNonce: extraNonce,
+      "miner": miner,
+      "job_id": crypto.pseudoRandomBytes(nRandomBytesJob).toString('hex'),
+      "extraNonce": extraNonce,
 
-      height: template.height,
-      seed_hash: template.seed_hash,
-      blocktemplate_blob: template.blocktemplate_blob,
-      globalDiff: template.difficulty.toString(),
+      "height": templateHeight,
+      "seed_hash": templateSeedhash,
+      "blocktemplate_blob": templateBlob,
+      "globalDiff": templateDiff,
 
       // Cannot use BigInt in Redis!
-      difficulty: diff.toString()
+      "difficulty": diff.toString()
     }
 
     await cache.put(newJob.job_id, newJob)
@@ -144,7 +142,10 @@ const StratumService = {
       return {}
     }
    
-  }
+  },
+
+
+
 
 }
 
